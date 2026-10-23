@@ -1,0 +1,40 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please don't include links to private content, cookies, account names or anything that identifies you.
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      description: Which site, e.g. YouTube, Bilibili, RedNote
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and the exact message Rabbit showed.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Public link that reproduces it (optional)
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Rabbit and yt-dlp versions (Settings → Tools), and Windows version
+      placeholder: Rabbit 0.7.0, yt-dlp 2026.10.21, Windows 11 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log excerpt (optional)
+      description: Remove personal paths and cookies before pasting.
+      render: text

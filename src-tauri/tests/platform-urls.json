@@ -1,0 +1,341 @@
+{
+  "_note": "Public test URLs. Sources: 'yt-dlp' = yt-dlp 2026.10.21 extractor _TESTS (real, not skipped); 'dlbunny' = example links on DLBunny's public platform pages (REA capture ev_dec2ab82…). Checked 2026-10-22.",
+  "cases": [
+    {
+      "platform": "youtube",
+      "expect": "video",
+      "source": "short link",
+      "url": "https://youtu.be/jNQXAC9IVRw"
+    },
+    {
+      "platform": "youtube",
+      "expect": "video",
+      "source": "Blender Foundation (Big Buck Bunny, 4K60)",
+      "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
+    },
+    {
+      "platform": "youtube",
+      "expect": "video",
+      "source": "yt-dlp (Me at the zoo, 2005)",
+      "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+    },
+    {
+      "platform": "youtube",
+      "expect": "video",
+      "source": "DLBunny documented example (Shorts)",
+      "url": "https://www.youtube.com/shorts/r-rLeLMwvpE"
+    },
+    {
+      "platform": "tiktok",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.tiktok.com/@patroxofficial/video/6742501081818877190?langCountry=en"
+    },
+    {
+      "platform": "tiktok",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://vm.tiktok.com/ZTR45GpSF/"
+    },
+    {
+      "platform": "tiktok",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.tiktok.com/t/ZTRC5xgJp"
+    },
+    {
+      "platform": "tiktok",
+      "expect": "gallery",
+      "source": "dlbunny",
+      "url": "https://www.tiktok.com/@evynhuynh/photo/7367130722806648106"
+    },
+    {
+      "platform": "douyin",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.douyin.com/video/6961737553342991651"
+    },
+    {
+      "platform": "douyin",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.douyin.com/video/6982497745948921092"
+    },
+    {
+      "platform": "douyin",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://v.douyin.com/8Tdgeu/"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.bilibili.com/video/BV13x41117TL"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.bilibili.com/video/av8903802/"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.bilibili.com/video/BV1T44FezE7a/"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://b23.tv/a9P3uZO"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.bilibili.tv/en/video/4794396117045760"
+    },
+    {
+      "platform": "instagram",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://instagram.com/p/aye83DjauH/"
+    },
+    {
+      "platform": "instagram",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.instagram.com/reel/DBBEGXpvwNF/"
+    },
+    {
+      "platform": "instagram",
+      "expect": "image",
+      "source": "dlbunny",
+      "url": "https://www.instagram.com/p/DEOGT-qyOwm/"
+    },
+    {
+      "platform": "twitter",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://twitter.com/starwars/status/665052190608723968"
+    },
+    {
+      "platform": "twitter",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://twitter.com/captainamerica/status/719944021058060289"
+    },
+    {
+      "platform": "twitter",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://twitter.com/oshtru/status/1577855540407197696"
+    },
+    {
+      "platform": "twitter",
+      "expect": "gallery",
+      "source": "yt-dlp",
+      "url": "https://twitter.com/UltimaShadowX/status/1577719286659006464"
+    },
+    {
+      "platform": "twitter",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://x.com/yua_mikami/status/1876940930139181424"
+    },
+    {
+      "platform": "facebook",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.facebook.com/radiokicksfm/videos/3676516585958356/"
+    },
+    {
+      "platform": "facebook",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.facebook.com/reel/1195289147628387"
+    },
+    {
+      "platform": "facebook",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.facebook.com/reel/1355164985501660"
+    },
+    {
+      "platform": "pinterest",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://pinterest.com/pin/dive-into-serenity-blue-lagoon-pedi-nails-for-a-tranquil-and-refreshing-spa-experience-video-in-2024--2885187256207927"
+    },
+    {
+      "platform": "pinterest",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.pinterest.com/pin/1477812373602736/"
+    },
+    {
+      "platform": "pinterest",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://pin.it/1X4o9EJSU"
+    },
+    {
+      "platform": "rednote",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.xiaohongshu.com/explore/6411cf99000000001300b6d9"
+    },
+    {
+      "platform": "rednote",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.xiaohongshu.com/discovery/item/674051740000000007027a15?xsec_token=CBgeL8Dxd1ZWBhwqRd568gAZ_iwG-9JIf9tnApNmteU2E="
+    },
+    {
+      "platform": "rednote",
+      "expect": "any",
+      "source": "dlbunny",
+      "url": "https://www.xiaohongshu.com/explore/672451ee000000001a034bc6"
+    },
+    {
+      "platform": "kuaishou",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.kuaishou.com/short-video/3x88nbkyjtga6zk"
+    },
+    {
+      "platform": "kuaishou",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://v.kuaishou.com/5fkjkb"
+    },
+    {
+      "platform": "kuaishou",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.kwai.com/@vokic313/video/5220666502875224403"
+    },
+    {
+      "platform": "suno",
+      "expect": "audio",
+      "source": "dlbunny",
+      "url": "https://suno.com/song/8e94d88d-912d-4bda-a5b4-42d9e04d74c4"
+    },
+    {
+      "platform": "suno",
+      "expect": "audio",
+      "source": "dlbunny",
+      "url": "https://app.suno.ai/song/b27c29f6-8ab4-47eb-81fd-efb85c848ada"
+    },
+    {
+      "platform": "suno",
+      "expect": "audio",
+      "source": "dlbunny",
+      "url": "https://suno.com/s/AQrKvtqiIoeTE9RI"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "user",
+      "url": "https://www.bilibili.com/video/BV1efJk6aEdA?t=1.6"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "yt-dlp",
+      "url": "https://www.bilibili.com/video/BV1bK411W797?p=2"
+    },
+    {
+      "platform": "kuaishou",
+      "expect": "video",
+      "source": "derived",
+      "url": "https://www.kuaishou.com/short-video/3xjegz725scedme"
+    },
+    {
+      "platform": "bilibili",
+      "expect": "video",
+      "source": "meta.discourse.org example",
+      "url": "https://b23.tv/hiS7rgR"
+    },
+    {
+      "platform": "kuaishou",
+      "expect": "video",
+      "source": "dlbunny",
+      "url": "https://www.kuaishou.com/f/X-9XB3YvenaCTkCE"
+    },
+    {
+      "platform": "rednote",
+      "expect": "error",
+      "source": "dlbunny",
+      "url": "http://xhslink.com/a/RVjdnIaGmsi2"
+    },
+    {
+      "platform": "instagram",
+      "expect": "image",
+      "source": "gallery-dl tests (GraphImage)",
+      "url": "https://www.instagram.com/p/BqvsDleB3lV/"
+    },
+    {
+      "platform": "instagram",
+      "expect": "gallery",
+      "source": "gallery-dl tests (GraphSidecar, 5 images)",
+      "url": "https://www.instagram.com/p/BoHk1haB5tM/"
+    },
+    {
+      "platform": "instagram",
+      "expect": "gallery",
+      "source": "gallery-dl tests (sidecar, 2 videos)",
+      "url": "https://www.instagram.com/p/BtOvDOfhvRr/"
+    },
+    {
+      "platform": "twitter",
+      "expect": "gallery",
+      "source": "gallery-dl tests (4 images)",
+      "url": "https://twitter.com/perrypumas/status/894001459754180609"
+    },
+    {
+      "platform": "twitter",
+      "expect": "gallery",
+      "source": "gallery-dl tests (image + video)",
+      "url": "https://x.com/carrotsprout_/status/1577924293023133696"
+    },
+    {
+      "platform": "twitter",
+      "expect": "video",
+      "source": "gallery-dl tests (animated GIF)",
+      "url": "https://x.com/GrimboGrim/status/1839019491835129889"
+    },
+    {
+      "platform": "pinterest",
+      "expect": "image",
+      "source": "gallery-dl tests (image pin)",
+      "url": "https://www.pinterest.com/pin/858146903966145189/"
+    },
+    {
+      "platform": "pinterest",
+      "expect": "gallery",
+      "source": "gallery-dl tests (story pin, images)",
+      "url": "https://jp.pinterest.com/pin/858146904010573850/"
+    },
+    {
+      "platform": "rednote",
+      "expect": "gallery",
+      "source": "GitHub issue NEORUAA/XHS_Downloader_Android#53 (6 images, 1 Live Photo)",
+      "url": "https://xhslink.cn/o/8FKGfNCXZpB"
+    },
+    {
+      "platform": "rednote",
+      "expect": "gallery",
+      "source": "GitHub issue NEORUAA/XHS_Downloader_iOS#4 (4 Live Photos)",
+      "url": "https://xhslink.cn/o/198ItN4kuCe"
+    },
+    {
+      "platform": "twitter",
+      "expect": "gallery",
+      "source": "gallery-dl tests (2 photos + 1080x1440 video)",
+      "url": "https://x.com/gopherfootball/status/1950259395432239395"
+    }
+  ]
+}

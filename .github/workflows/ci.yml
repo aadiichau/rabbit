@@ -1,0 +1,73 @@
+# Build validation for every push to main and every pull request. Never publishes anything.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend (types, tests, build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npx vitest run
+      - run: npx vite build
+
+  website:
+    name: Website (links and stats script)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Check that every local link and image in the site exists
+        run: node site/scripts/check-site.mjs
+      - name: Generate download statistics (read-only API call)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node site/scripts/stats.mjs --repo "${{ github.repository }}" --out "${{ runner.temp }}/stats"
+
+  rust:
+    name: Rust (clippy, tests) on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: src-tauri
+      - name: Fetch pinned sidecars (yt-dlp, FFmpeg) and verify their SHA-256
+        shell: pwsh
+        run: ./scripts/fetch-sidecars.ps1
+      - run: npm ci
+      # The frontend is embedded into the binary at compile time.
+      - run: npm run build
+      - name: Clippy
+        working-directory: src-tauri
+        run: cargo clippy --all-targets --locked
+      - name: Tests (offline suites; live-network tests are #[ignore])
+        working-directory: src-tauri
+        run: cargo test --locked

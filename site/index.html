@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rabbit — media downloader for Windows</title>
+  <meta name="description" content="Rabbit is a free, open-source Windows app that downloads public videos, audio and images from YouTube, Bilibili, Kuaishou, RedNote, Instagram, X, Pinterest and more — and checks every file it saves.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0d0e10">
+  <meta property="og:title" content="Rabbit — media downloader for Windows">
+  <meta property="og:description" content="Free and open source. Downloads public videos, audio and images, and verifies every file it saves.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/rabbit-analyze-4k.webp">
+  <link rel="icon" href="assets/rabbit-mark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/rabbit-128.png" type="image/png" sizes="128x128">
+  <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="brand" href="#top" aria-label="Rabbit home">
+        <img src="assets/rabbit-mark.svg" alt="" width="28" height="28">
+        <span>Rabbit</span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#features">Features</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#download">Download</a>
+        <a href="#faq">FAQ</a>
+        <a class="nav-gh" href="https://github.com/aadiichau/rabbit">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Free and open source · Windows 10 / 11</p>
+          <h1>Paste a link.<br>Get the real file.</h1>
+          <p class="lede">Rabbit downloads public videos, audio and images from YouTube, Bilibili, Kuaishou, RedNote,
+            Instagram, Facebook, X, Pinterest and more — in the best quality the source offers — and checks every
+            file it saves.</p>
+          <div class="cta">
+            <a class="btn btn-primary" data-download href="https://github.com/aadiichau/rabbit/releases/latest">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m0 0-3.5-3.5M10 12l3.5-3.5M4 15.5h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download for Windows
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/aadiichau/rabbit">View source</a>
+          </div>
+          <p class="cta-meta mono" data-release-meta>Windows 10 / 11 · 64-bit · installs without admin rights</p>
+        </div>
+        <figure class="hero-shot">
+          <img src="assets/rabbit-analyze-4k.webp" width="1600" height="1000" alt="Rabbit analyzing a YouTube link: twelve video options from 2160p60 down to 144p, with container, codec, frame rate and size for each, and 1080p60 H.264 recommended.">
+        </figure>
+      </div>
+    </section>
+
+    <section class="band" id="features" aria-labelledby="features-h">
+      <div class="wrap">
+        <p class="kicker mono">01 — Features</p>
+        <h2 id="features-h">A precise tool, not a portal.</h2>
+        <div class="features">
+          <article>
+            <h3>Every option, laid out</h3>
+            <p>Resolution, frame rate, container, codec and size for each format the source offers. Rabbit recommends
+              the one that plays everywhere; you can pick any other.</p>
+          </article>
+          <article>
+            <h3>Verified files</h3>
+            <p>After each download Rabbit inspects the file with FFprobe. If a video comes out smaller than the quality
+              it promised, the task fails instead of quietly saving the wrong thing.</p>
+          </article>
+          <article>
+            <h3>Fast, resumable transfers</h3>
+            <p>Large files are fetched over parallel connections, back off politely when a server limits them, and
+              resume after a pause, a dropped connection or a restart.</p>
+          </article>
+          <article>
+            <h3>Its own extractors</h3>
+            <p>Native readers for Bilibili, Kuaishou, Kwai, RedNote, X, Pinterest and Suno, with yt-dlp as the
+              fallback — so a site change upstream doesn't take everything down.</p>
+          </article>
+          <article>
+            <h3>Everything included</h3>
+            <p>yt-dlp, FFmpeg and FFprobe ship inside the installer. Merge video and audio, convert to MP3 or save the
+              original image — nothing else to install.</p>
+          </article>
+          <article>
+            <h3>Private by default</h3>
+            <p>No account, no telemetry, no ads. Links are analysed on your PC. Signed-in sessions for Bilibili HD are
+              opt-in, per site, and never stored.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band-alt" id="platforms" aria-labelledby="platforms-h">
+      <div class="wrap">
+        <p class="kicker mono">02 — Platforms</p>
+        <h2 id="platforms-h">Tested on real public links.</h2>
+        <p class="section-lede">Each status comes from downloading real public samples and checking them with
+          FFprobe. Where a site withholds something from signed-out visitors, Rabbit says so — it doesn't route
+          around it.</p>
+        <div class="table-scroll" role="region" aria-label="Platform support table" tabindex="0">
+          <table class="platforms">
+            <thead>
+              <tr><th scope="col">Platform</th><th scope="col">Video</th><th scope="col">Audio</th><th scope="col">Images</th><th scope="col">Best verified</th><th scope="col">Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">YouTube</th><td>Videos, Shorts</td><td>M4A, Opus, MP3</td><td>Cover</td><td class="mono">3840×2160</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">Instagram</th><td>Reels, posts</td><td>—</td><td>Photos, carousels</td><td class="mono">1080×1920</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">X / Twitter</th><td>Video, GIF</td><td>—</td><td>Original photos</td><td class="mono">1080×1440</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">Bilibili</th><td>BV / av, parts, b23.tv</td><td>M4A, MP3</td><td>Cover</td><td class="mono">1920×1080*</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">RedNote</th><td>Video notes</td><td>MP3</td><td>Image notes, Live Photos</td><td class="mono">720×1280</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">Pinterest</th><td>Video pins</td><td>—</td><td>Image and story pins</td><td class="mono">720×1280</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">Kwai</th><td>Video pages</td><td>MP3</td><td>Cover</td><td class="mono">720×1280</td><td><span class="tag ok">Verified</span></td></tr>
+              <tr><th scope="row">Kuaishou</th><td>Share and desktop links</td><td>MP3</td><td>Cover</td><td class="mono">1080×1920</td><td><span class="tag part">Partial</span></td></tr>
+              <tr><th scope="row">Facebook</th><td>Reels, videos</td><td>—</td><td>—</td><td class="mono">1080×1920</td><td><span class="tag part">Partial</span></td></tr>
+              <tr><th scope="row">Suno</th><td>Song video</td><td>Withheld by Suno</td><td>Cover</td><td class="mono">824×1464</td><td><span class="tag part">Partial</span></td></tr>
+              <tr><th scope="row">TikTok, Douyin</th><td colspan="4">Not available from the test location (regional block / signed-in only)</td><td><span class="tag off">Not tested</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">* Bilibili gives signed-out visitors up to 480p. 1080p was verified with the optional
+          signed-in session. Other sites go through yt-dlp's generic support with no promise. Full details:
+          <a href="https://github.com/aadiichau/rabbit/blob/main/docs/PLATFORM_COMPATIBILITY.md">platform compatibility</a>.</p>
+      </div>
+    </section>
+
+    <section class="band" id="showcase" aria-labelledby="showcase-h">
+      <div class="wrap">
+        <p class="kicker mono">03 — In use</p>
+        <h2 id="showcase-h">What you'll see.</h2>
+        <div class="shots">
+          <figure>
+            <img src="assets/rabbit-queue.webp" width="1600" height="348" loading="lazy" alt="Rabbit's queue with three Blender open movies: two downloading with size, speed and time left, one finished and marked Verified.">
+            <figcaption>The queue: live size, speed and time left; finished files are checked and marked <em>Verified</em>.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/rabbit-image.webp" width="1600" height="738" loading="lazy" alt="Rabbit analyzing an Instagram photo post by NASA, offering the original image as a JPEG.">
+            <figcaption>Image posts download as the original file, not a screenshot-sized preview.</figcaption>
+          </figure>
+        </div>
+        <p class="footnote">Screenshots of Rabbit 0.7.0. Shown media: Big Buck Bunny, Sintel, Spring and Tears of Steel
+          by the Blender Foundation (CC BY); photo by NASA.</p>
+      </div>
+    </section>
+
+    <section class="band band-alt" id="download" aria-labelledby="download-h">
+      <div class="wrap download-grid">
+        <div>
+          <p class="kicker mono">04 — Download</p>
+          <h2 id="download-h">Rabbit for Windows</h2>
+          <dl class="specs">
+            <div><dt>Version</dt><dd class="mono" data-field="version">See the latest release</dd></div>
+            <div><dt>Installer</dt><dd class="mono" data-field="file">Rabbit_&lt;version&gt;_x64-setup.exe</dd></div>
+            <div><dt>Size</dt><dd class="mono" data-field="size">about 70 MB</dd></div>
+            <div><dt>Released</dt><dd class="mono" data-field="date">—</dd></div>
+            <div><dt>Requires</dt><dd>Windows 10 or 11, 64-bit. Microsoft Edge WebView2 (included in Windows 11; the installer adds it on Windows 10 if missing).</dd></div>
+            <div><dt>Installs to</dt><dd>Your user folder. No administrator rights; uninstall from Settings → Apps.</dd></div>
+          </dl>
+          <div class="cta">
+            <a class="btn btn-primary" data-download href="https://github.com/aadiichau/rabbit/releases/latest">Download installer</a>
+            <a class="btn btn-ghost" data-notes href="https://github.com/aadiichau/rabbit/releases/latest">Release notes</a>
+          </div>
+          <p class="small" data-checksum>Each release includes a <span class="mono">SHA256SUMS.txt</span> file so you can
+            check the installer before running it.</p>
+        </div>
+        <aside class="notice" aria-labelledby="smartscreen-h">
+          <h3 id="smartscreen-h">About the Windows warning</h3>
+          <p>The installer isn't code-signed yet, so Microsoft Defender SmartScreen may say it
+            <em>"protected your PC"</em> because the publisher is unknown. That warning is about the missing
+            signature, not a detected threat.</p>
+          <p>If you trust this page, choose <strong>More info → Run anyway</strong>. If you'd rather check first,
+            compare the file's SHA-256 with the release's <span class="mono">SHA256SUMS.txt</span>:</p>
+          <pre class="mono"><code>Get-FileHash .\Rabbit_*_x64-setup.exe</code></pre>
+          <p class="small">Rabbit is not verified or endorsed by Microsoft.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="band" id="stats" aria-labelledby="stats-h">
+      <div class="wrap">
+        <p class="kicker mono">05 — Numbers</p>
+        <h2 id="stats-h">Downloads so far.</h2>
+        <div class="stats">
+          <div class="stat"><span class="stat-value mono" data-stat="downloads">—</span><span class="stat-label">installer downloads</span></div>
+          <div class="stat"><span class="stat-value mono" data-stat="releases">—</span><span class="stat-label">stable releases</span></div>
+          <div class="stat"><span class="stat-value mono" data-stat="latest">—</span><span class="stat-label">latest version</span></div>
+        </div>
+        <p class="footnote" data-stat="note">Counted from GitHub's own download numbers for the Windows installer of each
+          published release, refreshed every few hours. A download isn't a person or an install.</p>
+      </div>
+    </section>
+
+    <section class="band band-alt" id="faq" aria-labelledby="faq-h">
+      <div class="wrap faq-wrap">
+        <p class="kicker mono">06 — FAQ</p>
+        <h2 id="faq-h">Questions.</h2>
+        <div class="faq">
+          <details>
+            <summary>Is Rabbit free?</summary>
+            <p>Yes. Rabbit is open source under the MIT License, with no ads, accounts or paid tiers.</p>
+          </details>
+          <details>
+            <summary>Does Rabbit collect any data?</summary>
+            <p>No. There's no telemetry or analytics. Rabbit talks only to the site you're downloading from — and, when
+              you ask it to, GitHub to check for a yt-dlp update. Your library stays on your PC.</p>
+          </details>
+          <details>
+            <summary>Can it download private posts or get around paywalls?</summary>
+            <p>No. Rabbit downloads what the site shows a signed-out visitor. It never bypasses DRM, paywalls, captchas
+              or regional blocks. For Bilibili you can opt in to using your own browser session for the qualities your
+              account already has.</p>
+          </details>
+          <details>
+            <summary>Why does Windows warn me about the installer?</summary>
+            <p>Because it isn't code-signed yet. See <a href="#smartscreen-h">About the Windows warning</a> above, and
+              check the SHA-256 if you want to be sure the file is the one published here.</p>
+          </details>
+          <details>
+            <summary>Is there a macOS or Linux version?</summary>
+            <p>Not yet. Rabbit is built with Tauri, so other platforms are possible, but only Windows is built and tested
+              today.</p>
+          </details>
+          <details>
+            <summary>Does it update itself?</summary>
+            <p>Rabbit itself doesn't update automatically — download new versions from this page. The bundled yt-dlp can
+              be updated from Settings → Tools when you choose to; each update is checked against its SHA-256 first.</p>
+          </details>
+          <details>
+            <summary>A link doesn't work. What now?</summary>
+            <p>Sites change often. Try updating yt-dlp in Settings → Tools, then
+              <a href="https://github.com/aadiichau/rabbit/issues">open an issue</a> with the error Rabbit shows (leave out
+              links to anything private).</p>
+          </details>
+          <details>
+            <summary>Is downloading allowed?</summary>
+            <p>Only download what you have the right to. Many sites' terms restrict downloading, and copyright still
+              applies to what you save. Rabbit is a tool; how you use it is up to you.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div class="foot-brand">
+        <img src="assets/rabbit-mark.svg" alt="" width="24" height="24">
+        <span>Rabbit</span>
+        <p class="small">MIT License. Built on <a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a> (Unlicense) and
+          <a href="https://ffmpeg.org/">FFmpeg</a> (LGPL, builds by <a href="https://github.com/BtbN/FFmpeg-Builds">BtbN</a>),
+          with <a href="https://tauri.app/">Tauri</a> and IBM Plex (OFL).</p>
+      </div>
+      <nav class="foot-links" aria-label="Project links">
+        <a href="https://github.com/aadiichau/rabbit">GitHub</a>
+        <a href="https://github.com/aadiichau/rabbit/releases">Releases</a>
+        <a href="https://github.com/aadiichau/rabbit/issues">Issues</a>
+        <a href="https://github.com/aadiichau/rabbit/blob/main/LICENSE">License</a>
+        <a href="https://github.com/aadiichau/rabbit/blob/main/THIRD_PARTY_NOTICES.md">Credits</a>
+        <a href="https://github.com/aadiichau/rabbit/blob/main/SECURITY.md">Security</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

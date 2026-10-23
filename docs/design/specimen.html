@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rabbit — Design Specimen</title>
+<!-- Specimen only: the app bundles Plex locally via @fontsource; nothing is fetched at runtime. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../src/design/tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: #070708; }
+  body { font: 13px/20px var(--font-sans); color: var(--fg-1); padding: 32px; -webkit-font-smoothing: antialiased; }
+  .note { font: 12px/16px var(--font-mono); color: #5d5b56; margin: 0 auto 12px; width: 1180px; }
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; stroke-linejoin: miter; flex: none; }
+
+  .window { width: 1180px; height: 760px; margin: 0 auto; background: var(--bg-1); border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; display: grid; grid-template-rows: var(--titlebar-h) 1fr; box-shadow: 0 40px 120px rgb(0 0 0 / .7); }
+
+  /* Title bar */
+  .titlebar { background: var(--bg-0); display: flex; align-items: center; border-bottom: 1px solid var(--line-1); }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 0 16px; width: var(--sidebar-w); font-weight: 600; letter-spacing: -0.01em; }
+  .brand-mark { width: 14px; height: 14px; position: relative; }
+  .brand-mark::before { content: ""; position: absolute; inset: 0; border: 1.5px solid var(--amber); transform: rotate(45deg) scale(.78); }
+  .brand-mark::after { content: ""; position: absolute; inset: 5px; background: var(--amber); transform: rotate(45deg); }
+  .tb-crumb { color: var(--fg-3); font-size: 12px; }
+  .tb-spacer { flex: 1; }
+  .winctl { width: 46px; height: 36px; display: grid; place-items: center; color: var(--fg-2); }
+  .winctl:hover { background: var(--bg-3); color: var(--fg-1); }
+  .winctl.close:hover { background: #c42b1c; color: #fff; }
+
+  .body { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: 0; }
+
+  /* Sidebar */
+  .sidebar { background: var(--bg-0); border-right: 1px solid var(--line-1); display: flex; flex-direction: column; padding: 12px 8px; gap: 2px; }
+  .nav { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 10px; border-radius: var(--r-ctl); color: var(--fg-2); position: relative; }
+  .nav:hover { background: var(--bg-2); color: var(--fg-1); }
+  .nav.active { background: var(--bg-2); color: var(--fg-1); }
+  .nav.active::before { content: ""; position: absolute; left: -8px; top: 8px; bottom: 8px; width: 2px; background: var(--amber); }
+  .nav .count { margin-left: auto; font: 500 11px/16px var(--font-mono); color: var(--amber-ink); background: var(--amber); padding: 0 5px; border-radius: var(--r-tag); }
+  .nav kbd { margin-left: auto; font: 11px/16px var(--font-mono); color: var(--fg-4); }
+  .sb-fill { flex: 1; }
+  .heartbeat { border-top: 1px solid var(--line-1); margin: 8px -8px 6px; padding: 14px 18px 8px; }
+  .hb-label { font: 500 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); }
+  .hb-speed { font: 500 15px/20px var(--font-mono); margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 6px; height: 6px; background: var(--amber); border-radius: 50%; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .hb-sub { font: 12px/16px var(--font-mono); color: var(--fg-3); margin-top: 2px; }
+
+  /* Content */
+  .content { overflow: auto; display: flex; flex-direction: column; scrollbar-gutter: stable; }
+  .content > * { flex-shrink: 0; }
+  .viewhead { display: flex; align-items: baseline; gap: 12px; padding: 20px 24px 0; }
+  .viewhead h1 { font: 600 18px/24px var(--font-sans); letter-spacing: -0.01em; }
+  .viewhead .sub { color: var(--fg-3); font-size: 12px; }
+
+  .hero { margin: 16px 24px 0; display: flex; height: 48px; background: var(--bg-3); border: 1px solid var(--amber); border-radius: var(--r-ctl); box-shadow: inset 0 0 0 1px var(--amber-line); align-items: center; padding: 0 6px 0 8px; gap: 10px; position: relative; }
+  .chip { font: 500 11px/18px var(--font-mono); padding: 0 6px; border-radius: var(--r-tag); background: var(--amber-tint); color: var(--amber); border: 1px solid var(--amber-line); letter-spacing: .02em; }
+  .chip.neutral { background: var(--bg-4); color: var(--fg-2); border-color: var(--line-2); }
+  .hero-input { flex: 1; font: 15px/24px var(--font-mono); color: var(--fg-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hero-input .host { color: var(--fg-1); } .hero-input .path { color: var(--fg-2); }
+  .btn { height: 32px; display: inline-flex; align-items: center; gap: 8px; padding: 0 12px; border-radius: var(--r-ctl); font: 500 13px/20px var(--font-sans); border: 1px solid transparent; white-space: nowrap; }
+  .btn.ghost { color: var(--fg-2); } .btn.ghost:hover { background: var(--bg-4); color: var(--fg-1); }
+  .btn.secondary { background: var(--bg-3); border-color: var(--line-2); color: var(--fg-1); } .btn.secondary:hover { border-color: var(--line-3); }
+  .btn.primary { background: var(--amber); color: var(--amber-ink); } .btn.primary:hover { background: var(--amber-hi); }
+  .btn.lg { height: 36px; padding: 0 16px; }
+  kbd { font: 11px/16px var(--font-mono); background: var(--bg-4); color: var(--fg-3); padding: 0 4px; border-radius: var(--r-tag); }
+  .btn.primary kbd { background: rgb(27 18 6 / .14); color: var(--amber-ink); }
+  .stage { margin: 8px 24px 0; font: 12px/16px var(--font-mono); color: var(--fg-3); display: flex; gap: 16px; }
+  .stage b { font-weight: 500; color: var(--ok); }
+
+  /* Preview */
+  .preview { margin: 16px 24px 0; display: grid; grid-template-columns: 300px 1fr; border: 1px solid var(--line-1); border-radius: var(--r-panel); background: var(--bg-2); overflow: hidden; }
+  .thumb { background: var(--bg-0); aspect-ratio: 16 / 9; position: relative; border-right: 1px solid var(--line-1); }
+  .thumb-art { position: absolute; inset: 0; background:
+      radial-gradient(120% 90% at 70% 30%, #3b3326 0%, transparent 55%),
+      radial-gradient(90% 80% at 20% 80%, #1f2a2f 0%, transparent 60%),
+      linear-gradient(160deg, #24221f, #121315); }
+  .thumb .dur { position: absolute; right: 8px; bottom: 8px; font: 500 11px/16px var(--font-mono); background: rgb(13 14 16 / .85); padding: 0 5px; border-radius: var(--r-tag); }
+  .thumb-meta { padding: 12px 14px; font: 12px/18px var(--font-mono); color: var(--fg-3); border-right: 1px solid var(--line-1); border-top: 1px solid var(--line-1); }
+  .thumb-meta div { display: flex; justify-content: space-between; } .thumb-meta span:last-child { color: var(--fg-2); }
+  .pv-main { display: flex; flex-direction: column; min-width: 0; }
+  .pv-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line-1); }
+  .pv-eyebrow { display: flex; gap: 8px; align-items: center; font: 500 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); }
+  .pv-title { font: 600 20px/26px var(--font-sans); letter-spacing: -0.015em; margin-top: 8px; }
+  .pv-by { margin-top: 4px; color: var(--fg-2); font-size: 13px; } .pv-by .mono { color: var(--fg-3); font-size: 12px; }
+  .tabs { display: flex; gap: 20px; padding: 0 20px; border-bottom: 1px solid var(--line-1); }
+  .tab { height: 36px; display: flex; align-items: center; gap: 8px; color: var(--fg-3); position: relative; }
+  .tab.active { color: var(--fg-1); } .tab.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--amber); }
+  .tab .n { font: 11px/16px var(--font-mono); color: var(--fg-4); }
+  table { width: 100%; border-collapse: collapse; }
+  th { font: 500 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); text-align: left; padding: 10px 12px 8px; }
+  th:first-child, td:first-child { padding-left: 20px; }
+  td { padding: 0 12px; height: 32px; border-top: 1px solid var(--line-1); font: 12px/16px var(--font-mono); color: var(--fg-2); white-space: nowrap; }
+  table { table-layout: fixed; }
+  col.c-q { width: 104px; } col.c-ct { width: 84px; } col.c-cd { width: 112px; } col.c-fps { width: 48px; } col.c-sz { width: 92px; }
+  td.note { overflow: hidden; text-overflow: ellipsis; }
+  td.q { font: 500 13px/20px var(--font-sans); color: var(--fg-1); }
+  td.note { font: 12px/16px var(--font-sans); color: var(--fg-3); }
+  tr.sel td { background: var(--amber-tint); color: var(--fg-1); }
+  tr.sel td:first-child { box-shadow: inset 2px 0 0 var(--amber); }
+  .radio { width: 12px; height: 12px; border: 1.5px solid var(--line-3); border-radius: 50%; display: inline-block; vertical-align: -2px; margin-right: 10px; }
+  tr.sel .radio { border-color: var(--amber); background: radial-gradient(circle, var(--amber) 0 3px, transparent 3.5px); }
+  .pv-foot { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-top: 1px solid var(--line-1); background: var(--bg-1); }
+  .dest { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .dest .k { font: 500 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); }
+  .dest .v { font: 12px/18px var(--font-mono); color: var(--fg-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Queue strip */
+  .qhead { display: flex; align-items: baseline; justify-content: space-between; margin: 20px 24px 6px; }
+  .qhead .k { font: 500 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); }
+  .qhead a { color: var(--fg-3); font-size: 12px; text-decoration: none; }
+  .qrow { display: grid; grid-template-columns: 64px minmax(0, 1fr) 360px 72px; gap: 16px; align-items: center; height: 56px; margin: 0 24px; border-top: 1px solid var(--line-1); }
+  .qthumb { width: 64px; height: 36px; border-radius: var(--r-tag); background: linear-gradient(135deg, #2a2722, #15171a); border: 1px solid var(--line-1); }
+  .qthumb.b { background: linear-gradient(135deg, #1e2a2c, #131517); }
+  .qthumb.c { background: linear-gradient(135deg, #2c2420, #161414); }
+  .qtitle { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qmeta { display: flex; gap: 8px; align-items: center; font: 12px/16px var(--font-mono); color: var(--fg-3); margin-top: 2px; }
+  .qmeta .chip { font-size: 10px; line-height: 16px; padding: 0 4px; }
+  .readout { display: flex; justify-content: space-between; font: 12px/16px var(--font-mono); color: var(--fg-2); margin-bottom: 6px; }
+  .readout .spd { color: var(--fg-1); }
+  .ruler { height: 4px; background: var(--bg-3); position: relative; border-radius: 1px;
+     background-image: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), var(--line-2) calc(10% - 1px) 10%); }
+  .ruler .fill { position: absolute; inset: 0 auto 0 0; background: var(--amber); border-radius: 1px; }
+  .ruler .fill.paused { background: var(--fg-3); }
+  .ruler .fill.ok { background: var(--ok); }
+  .segs { display: flex; gap: 2px; margin-top: 3px; height: 2px; }
+  .segs i { flex: 1; background: var(--bg-3); position: relative; overflow: hidden; }
+  .segs i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--p); background: var(--amber-lo); }
+  .qact { display: flex; gap: 2px; justify-content: flex-end; color: var(--fg-3); }
+  .ib { width: 28px; height: 28px; display: grid; place-items: center; border-radius: var(--r-ctl); }
+  .ib:hover { background: var(--bg-3); color: var(--fg-1); }
+  .status { font: 12px/16px var(--font-sans); display: inline-flex; gap: 6px; align-items: center; }
+  .status.ok { color: var(--ok); } .status.paused { color: var(--fg-2); }
+
+  /* Component sheet */
+  .sheet { width: 1180px; margin: 32px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-1); border: 1px solid var(--line-1); border-radius: 8px; overflow: hidden; }
+  .cell { background: var(--bg-1); padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .cell h3 { font: 500 11px/14px var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .sw { width: 100%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .sw div { height: 36px; border-radius: var(--r-tag); border: 1px solid var(--line-1); }
+  .field { height: 32px; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: var(--r-ctl); display: flex; align-items: center; padding: 0 10px; color: var(--fg-3); width: 100%; }
+  .field.err { border-color: var(--err); color: var(--fg-1); }
+  .errmsg { font-size: 12px; color: var(--err); display: flex; gap: 6px; align-items: center; margin-top: -6px; }
+  .focusdemo { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .menu { background: var(--bg-2); border: 1px solid var(--line-2); border-radius: var(--r-panel); box-shadow: var(--shadow-2); padding: 4px; width: 220px; }
+  .mi { height: 28px; display: flex; align-items: center; gap: 10px; padding: 0 8px; border-radius: var(--r-ctl); color: var(--fg-2); }
+  .mi:hover, .mi.hl { background: var(--bg-3); color: var(--fg-1); }
+  .mi .ck { color: var(--amber); margin-left: auto; }
+  .mi kbd { margin-left: auto; }
+  .sep { height: 1px; background: var(--line-1); margin: 4px -4px; }
+  .toast { background: var(--bg-2); border: 1px solid var(--line-2); border-radius: var(--r-panel); box-shadow: var(--shadow-2), inset 3px 0 0 var(--err); padding: 10px 12px 10px 15px; width: 100%; }
+  .toast b { font-weight: 500; display: block; } .toast span { color: var(--fg-2); font-size: 12px; }
+  .tooltip { background: var(--bg-4); color: var(--fg-1); font-size: 12px; line-height: 16px; padding: 6px 8px; border-radius: var(--r-ctl); display: inline-flex; gap: 8px; align-items: center; }
+  .tooltip kbd { background: var(--bg-2); }
+  .empty { border: 1px dashed var(--line-2); border-radius: var(--r-panel); padding: 20px; }
+  .empty p:first-child { color: var(--fg-2); } .empty p:nth-child(2) { color: var(--fg-3); font-size: 12px; margin: 2px 0 12px; }
+  .indet { height: 4px; background: var(--bg-3); position: relative; overflow: hidden; border-radius: 1px; }
+  .indet::after { content: ""; position: absolute; top: 0; bottom: 0; width: 20%; background: var(--amber); animation: travel 1.2s linear infinite; }
+  @keyframes travel { from { left: -20%; } to { left: 100%; } }
+  .skel { height: 10px; border-radius: 2px; background: linear-gradient(90deg, var(--bg-3) 0 40%, var(--bg-4) 50%, var(--bg-3) 60% 100%); background-size: 300% 100%; animation: shimmer 1.4s linear infinite; }
+  @keyframes shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  @media (prefers-reduced-motion: reduce) { .dot, .indet::after, .skel { animation: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 16 16"><path d="M2.5 7.5 8 3l5.5 4.5M4 6.5V13h3v-3.5h2V13h3V6.5"/></symbol>
+    <symbol id="i-queue" viewBox="0 0 16 16"><path d="M2.5 4h11M2.5 8h11M2.5 12h7"/><path d="M12 10.5V14m-1.75-1.75L12 14l1.75-1.75"/></symbol>
+    <symbol id="i-library" viewBox="0 0 16 16"><path d="M2.5 2.5h4v11h-4zM8.5 2.5h2v11h-2zM11.5 3.2l1.9-.5 2 10.3-1.9.5z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 16 16"><path d="M2.5 4.5h6m3 0h2M2.5 11.5h2m3 0h6"/><path d="M8.5 3v3h3V3zM4.5 10v3h3v-3z"/></symbol>
+    <symbol id="i-paste" viewBox="0 0 16 16"><path d="M5.5 3H3.5v10.5h9V3h-2"/><path d="M5.5 2h5v2.5h-5z"/></symbol>
+    <symbol id="i-link" viewBox="0 0 16 16"><path d="M6.8 9.2 9.2 6.8M7.2 4.6l1.4-1.4a2.6 2.6 0 0 1 3.7 3.7l-1.4 1.4M8.8 11.4l-1.4 1.4a2.6 2.6 0 0 1-3.7-3.7l1.4-1.4"/></symbol>
+    <symbol id="i-download" viewBox="0 0 16 16"><path d="M8 2.5v8m-3.25-3.25L8 10.5l3.25-3.25M3 13.5h10"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 16 16"><path d="M5.5 3.5v9M10.5 3.5v9"/></symbol>
+    <symbol id="i-play" viewBox="0 0 16 16"><path d="M5 3.2v9.6L12.5 8z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 16 16"><path d="m4 4 8 8m0-8-8 8"/></symbol>
+    <symbol id="i-more" viewBox="0 0 16 16"><path d="M3.5 8h.01M8 8h.01M12.5 8h.01" stroke-width="2.2"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 16 16"><path d="M2.5 3.5h4l1.5 1.5h5.5v7.5h-11z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.5 8.5 3 3 6-7"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 16 16"><path d="M8 2.5 14 13.5H2zM8 7v3m0 1.75v.01"/></symbol>
+    <symbol id="i-video" viewBox="0 0 16 16"><path d="M2.5 4h8v8h-8zM10.5 7l3-2v6l-3-2"/></symbol>
+    <symbol id="i-audio" viewBox="0 0 16 16"><path d="M3 6.5v3M5.5 4.5v7M8 2.5v11M10.5 5v6M13 7v2"/></symbol>
+    <symbol id="i-image" viewBox="0 0 16 16"><path d="M2.5 3h11v10h-11z"/><path d="m2.5 11 3.5-3.5 3 3 1.5-1.5 3 3"/></symbol>
+    <symbol id="i-sub" viewBox="0 0 16 16"><path d="M2.5 3.5h11v9h-11zM5 8.5h3m1.5 0H11M5 10.5h6"/></symbol>
+    <symbol id="i-min" viewBox="0 0 16 16"><path d="M3 8h10"/></symbol>
+    <symbol id="i-max" viewBox="0 0 16 16"><path d="M3.5 3.5h9v9h-9z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 16 16"><path d="M7 2.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zM10.3 10.3 13.5 13.5"/></symbol>
+  </defs>
+</svg>
+
+<p class="note">DESIGN SPECIMEN — static layout with sample text to validate the visual system. Not application output; no extraction or download is represented as real.</p>
+
+<div class="window">
+  <div class="titlebar">
+    <div class="brand"><span class="brand-mark"></span>Rabbit</div>
+    <span class="tb-crumb">Home</span>
+    <span class="tb-spacer"></span>
+    <span class="winctl"><svg class="i"><use href="#i-min"/></svg></span>
+    <span class="winctl"><svg class="i"><use href="#i-max"/></svg></span>
+    <span class="winctl close"><svg class="i"><use href="#i-x"/></svg></span>
+  </div>
+  <div class="body">
+    <nav class="sidebar">
+      <a class="nav active"><svg class="i"><use href="#i-home"/></svg>Home<kbd>^1</kbd></a>
+      <a class="nav"><svg class="i"><use href="#i-queue"/></svg>Queue<span class="count">3</span></a>
+      <a class="nav"><svg class="i"><use href="#i-library"/></svg>Library<kbd>^3</kbd></a>
+      <div class="sb-fill"></div>
+      <div class="heartbeat">
+        <div class="hb-label">Throughput</div>
+        <div class="hb-speed"><span class="dot"></span>24.6 MB/s</div>
+        <div class="hb-sub">2 active · 1 queued</div>
+      </div>
+      <a class="nav"><svg class="i"><use href="#i-settings"/></svg>Settings<kbd>^,</kbd></a>
+    </nav>
+
+    <main class="content">
+      <div class="viewhead"><h1>Analyze a link</h1><span class="sub">Paste a URL or share text — detection happens locally.</span></div>
+      <div class="hero">
+        <span class="chip">YT</span>
+        <span class="hero-input"><span class="host">youtube.com</span><span class="path">/watch?v=··········· </span></span>
+        <span class="btn ghost"><svg class="i"><use href="#i-paste"/></svg>Paste <kbd>Ctrl V</kbd></span>
+        <span class="btn primary">Analyze <kbd>↵</kbd></span>
+      </div>
+      <div class="stage"><span><b>✓</b> Detected YouTube</span><span><b>✓</b> Metadata · yt-dlp</span><span>14 formats · 1.62 s</span></div>
+
+      <section class="preview">
+        <div>
+          <div class="thumb"><div class="thumb-art"></div><span class="dur">12:48</span></div>
+          <div class="thumb-meta">
+            <div><span>source</span><span>youtube</span></div>
+            <div><span>published</span><span>2026-09-14</span></div>
+            <div><span>id</span><span>···········</span></div>
+          </div>
+        </div>
+        <div class="pv-main">
+          <div class="pv-head">
+            <div class="pv-eyebrow"><span class="chip neutral">VIDEO</span>Sample title for layout</div>
+            <div class="pv-title">Long-form title wraps to two lines at most, then truncates with an ellipsis</div>
+            <div class="pv-by">Channel name <span class="mono">· 12:48 · 1.2M views</span></div>
+          </div>
+          <div class="tabs">
+            <span class="tab active"><svg class="i"><use href="#i-video"/></svg>Video <span class="n">9</span></span>
+            <span class="tab"><svg class="i"><use href="#i-audio"/></svg>Audio <span class="n">4</span></span>
+            <span class="tab"><svg class="i"><use href="#i-sub"/></svg>Subtitles <span class="n">2</span></span>
+            <span class="tab"><svg class="i"><use href="#i-image"/></svg>Cover</span>
+          </div>
+          <table>
+            <colgroup><col class="c-q"><col class="c-ct"><col class="c-cd"><col class="c-fps"><col class="c-sz"><col></colgroup>
+            <thead><tr><th>Quality</th><th>Container</th><th>Codec</th><th>FPS</th><th>Size</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="q"><span class="radio"></span>2160p</td><td>webm</td><td>vp9 + opus</td><td>30</td><td>≈ 612 MB</td><td class="note">merges with best audio</td></tr>
+              <tr class="sel"><td class="q"><span class="radio"></span>1080p</td><td>mp4</td><td>avc1 + mp4a</td><td>30</td><td>184.3 MB</td><td class="note">merges with best audio</td></tr>
+              <tr><td class="q"><span class="radio"></span>720p</td><td>mp4</td><td>avc1 + mp4a</td><td>30</td><td>96.0 MB</td><td class="note">merges with best audio</td></tr>
+              <tr><td class="q"><span class="radio"></span>360p</td><td>mp4</td><td>avc1 + mp4a</td><td>30</td><td>31.7 MB</td><td class="note">single file</td></tr>
+            </tbody>
+          </table>
+          <div class="pv-foot">
+            <div class="dest"><span class="k">Save to</span><span class="v">D:\Media\Rabbit\Channel name - Long-form title wraps….mp4</span></div>
+            <span class="btn secondary"><svg class="i"><use href="#i-folder"/></svg>Change</span>
+            <span class="btn primary lg"><svg class="i"><use href="#i-download"/></svg>Download 1080p</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="qhead"><span class="k">In progress</span><a>Open queue →</a></div>
+      <div class="qrow">
+        <div class="qthumb"></div>
+        <div><div class="qtitle">Segmented transfer · range requests supported</div><div class="qmeta"><span class="chip neutral">TT</span>mp4 · 1080×1920</div></div>
+        <div>
+          <div class="readout"><span>41.2 / 128.0 MB</span><span class="spd">12.4 MB/s</span><span>0:07</span></div>
+          <div class="ruler"><div class="fill" style="width:32%"></div></div>
+          <div class="segs"><i style="--p:58%"></i><i style="--p:31%"></i><i style="--p:22%"></i><i style="--p:17%"></i></div>
+        </div>
+        <div class="qact"><span class="ib"><svg class="i"><use href="#i-pause"/></svg></span><span class="ib"><svg class="i"><use href="#i-x"/></svg></span><span class="ib"><svg class="i"><use href="#i-more"/></svg></span></div>
+      </div>
+      <div class="qrow">
+        <div class="qthumb b"></div>
+        <div><div class="qtitle">Paused transfer keeps its verified partial file</div><div class="qmeta"><span class="chip neutral">BI</span>mp4 · 1920×1080 · merge</div></div>
+        <div>
+          <div class="readout"><span>310.6 / 512.0 MB</span><span class="status paused"><svg class="i"><use href="#i-pause"/></svg>Paused</span><span>—</span></div>
+          <div class="ruler"><div class="fill paused" style="width:61%"></div></div>
+        </div>
+        <div class="qact"><span class="ib"><svg class="i"><use href="#i-play"/></svg></span><span class="ib"><svg class="i"><use href="#i-x"/></svg></span><span class="ib"><svg class="i"><use href="#i-more"/></svg></span></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="sheet">
+  <div class="cell">
+    <h3>Surfaces · lines · text</h3>
+    <div class="sw"><div style="background:var(--bg-0)"></div><div style="background:var(--bg-1)"></div><div style="background:var(--bg-2)"></div><div style="background:var(--bg-3)"></div><div style="background:var(--bg-4)"></div></div>
+    <div class="sw"><div style="background:var(--fg-1)"></div><div style="background:var(--fg-2)"></div><div style="background:var(--fg-3)"></div><div style="background:var(--amber)"></div><div style="background:var(--amber-tint);border-color:var(--amber-line)"></div></div>
+    <div class="sw"><div style="background:var(--ok)"></div><div style="background:var(--warn)"></div><div style="background:var(--err)"></div><div style="background:var(--info)"></div><div style="background:var(--line-2)"></div></div>
+  </div>
+  <div class="cell">
+    <h3>Buttons</h3>
+    <div class="row"><span class="btn primary">Download 1080p</span><span class="btn secondary">Change folder</span><span class="btn ghost">Cancel</span></div>
+    <div class="row"><span class="btn secondary focusdemo">Focus-visible</span><span class="btn" style="background:var(--bg-3);color:var(--fg-4)">Disabled</span><span class="btn" style="color:var(--err)">Delete file</span></div>
+    <div class="row"><span class="tooltip">Reveal in Explorer <kbd>Ctrl ⇧ O</kbd></span></div>
+  </div>
+  <div class="cell">
+    <h3>Inputs & validation</h3>
+    <div class="field"><svg class="i" style="margin-right:8px"><use href="#i-search"/></svg>Search library</div>
+    <div class="field err mono">ftp://example.invalid/file</div>
+    <div class="errmsg"><svg class="i"><use href="#i-alert"/></svg>Only http and https links can be downloaded.</div>
+  </div>
+  <div class="cell">
+    <h3>Menu</h3>
+    <div class="menu">
+      <div class="mi hl"><svg class="i"><use href="#i-folder"/></svg>Reveal in Explorer<kbd>^⇧O</kbd></div>
+      <div class="mi"><svg class="i"><use href="#i-link"/></svg>Copy source URL</div>
+      <div class="mi">Prefer MP4<span class="ck"><svg class="i"><use href="#i-check"/></svg></span></div>
+      <div class="sep"></div>
+      <div class="mi" style="color:var(--err)">Remove from history…</div>
+    </div>
+  </div>
+  <div class="cell">
+    <h3>Feedback</h3>
+    <div class="toast"><b>Download failed — link expired</b><span>Rabbit re-checked the source; retrying in 4 s (attempt 2 of 6).</span></div>
+    <div><div class="readout" style="margin-bottom:6px"><span>Size unknown</span><span>3.1 MB/s</span><span>—</span></div><div class="indet"></div></div>
+    <div style="display:grid;gap:6px"><div class="skel" style="width:70%"></div><div class="skel" style="width:45%"></div></div>
+  </div>
+  <div class="cell">
+    <h3>Queue row · verified</h3>
+    <div class="qrow" style="margin:0;grid-template-columns:64px minmax(0,1fr);height:auto;border:0">
+      <div class="qthumb c"></div>
+      <div><div class="qtitle">Completed and verified with ffprobe</div><div class="qmeta"><span class="chip neutral">PI</span>jpg × 6 · gallery</div></div>
+    </div>
+    <div><div class="readout"><span>8.4 MB</span><span class="status ok"><svg class="i"><use href="#i-check"/></svg>Verified</span><span>2.1 s</span></div><div class="ruler"><div class="fill ok" style="width:100%"></div></div></div>
+  </div>
+  <div class="cell">
+    <h3>Empty state</h3>
+    <div class="empty"><p>Nothing downloading.</p><p>Paste a link on Home or drop one anywhere in the window.</p><span class="btn secondary">Go to Home</span></div>
+  </div>
+</div>
+</body>
+</html>

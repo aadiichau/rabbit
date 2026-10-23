@@ -1,0 +1,31 @@
+# Dependencies and build output
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+
+# Sidecars are downloaded by scripts/fetch-sidecars.ps1 (pinned and SHA-256 verified)
+src-tauri/binaries/*.exe
+src-tauri/binaries/ffmpeg/
+
+# Machine-local build settings
+src-tauri/.cargo/
+
+# Research output: downloaded samples, logs, upstream checkouts (only the tools are kept)
+research/*
+!research/tools/
+!research/README.md
+
+# Website files generated at deploy time
+site/stats.json
+site/badge.json
+
+# Local tooling, secrets and data
+.claude/
+*.log
+.env
+.env.*
+cookies.txt
+*.cookies.txt
+*.db
+*.sqlite

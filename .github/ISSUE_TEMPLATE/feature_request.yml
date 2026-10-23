@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest an improvement or a new platform
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like Rabbit to do?
+      description: Describe the problem or use case first, then the change you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Public example links, similar tools, screenshots.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This doesn't require bypassing DRM, paywalls, captchas, regional blocks or a site's sign-in.
+          required: true
