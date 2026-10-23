@@ -14,20 +14,34 @@ use crate::store::{Settings, Store};
 pub fn run() {
     tracing_subscriber::fmt().with_env_filter(tracing_subscriber::EnvFilter::from_default_env()).with_target(false).init();
 
-    tauri::Builder::default()
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            if let Some(w) = app.get_webview_window("main") {
-                let _ = w.unminimize();
-                let _ = w.set_focus();
-            }
-        }))
-        .plugin(tauri_plugin_window_state::Builder::default().build())
+    let portable = sys::portable::data_dir();
+    if let Some(dir) = &portable {
+        // WebView2 reads this when Tauri creates the window; it keeps the browser profile inside the folder too.
+        // SAFETY: called on the main thread before Tauri or anything else starts other threads.
+        unsafe { std::env::set_var("WEBVIEW2_USER_DATA_FOLDER", dir.join("webview")) };
+        tracing::info!(dir = %dir.display(), "portable mode");
+    }
+
+    let mut builder = tauri::Builder::default().plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+        if let Some(w) = app.get_webview_window("main") {
+            let _ = w.unminimize();
+            let _ = w.set_focus();
+        }
+    }));
+    // The window-state plugin writes to AppData; a portable copy simply opens centred.
+    if portable.is_none() {
+        builder = builder.plugin(tauri_plugin_window_state::Builder::default().build());
+    }
+    builder
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .setup(|app| {
-            let data = app.path().app_data_dir()?;
+        .setup(move |app| {
+            let data = match &portable {
+                Some(dir) => dir.clone(),
+                None => app.path().app_data_dir()?,
+            };
             let store = Arc::new(Store::open(&data.join("rabbit.db"))?);
             let settings = match store.load_settings()? {
                 Some(s) => s,
@@ -42,7 +56,11 @@ pub fn run() {
             let manager = engine::manager::Manager::new(store.clone(), settings, tools)?;
             manager.attach_app(app.handle().clone());
             // Verified yt-dlp updates live in the per-user data folder (Program Files isn't writable).
-            manager.set_update_dir(app.path().app_local_data_dir()?.join("bin"));
+            let update_root = match &portable {
+                Some(dir) => dir.clone(),
+                None => app.path().app_local_data_dir()?,
+            };
+            manager.set_update_dir(update_root.join("bin"));
             app.manage(store);
             app.manage(manager);
             Ok(())

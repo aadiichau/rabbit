@@ -158,18 +158,20 @@
           <h2 id="download-h">Rabbit for Windows</h2>
           <dl class="specs">
             <div><dt>Version</dt><dd class="mono" data-field="version">See the latest release</dd></div>
-            <div><dt>Installer</dt><dd class="mono" data-field="file">Rabbit_&lt;version&gt;_x64-setup.exe</dd></div>
-            <div><dt>Size</dt><dd class="mono" data-field="size">about 70 MB</dd></div>
+            <div><dt>Installer</dt><dd><span class="mono" data-field="file">Rabbit_&lt;version&gt;_x64-setup.exe</span> <span class="mono dim" data-field="size">about 70 MB</span></dd></div>
+            <div><dt>Portable</dt><dd><span class="mono" data-field="pfile">Rabbit_&lt;version&gt;_x64-portable.zip</span> <span class="mono dim" data-field="psize"></span><br>
+              <span class="small">No installation: unzip anywhere (even a USB drive) and run <span class="mono">rabbit.exe</span>. Settings and library stay in the folder.</span></dd></div>
             <div><dt>Released</dt><dd class="mono" data-field="date">—</dd></div>
             <div><dt>Requires</dt><dd>Windows 10 or 11, 64-bit. Microsoft Edge WebView2 (included in Windows 11; the installer adds it on Windows 10 if missing).</dd></div>
             <div><dt>Installs to</dt><dd>Your user folder. No administrator rights; uninstall from Settings → Apps.</dd></div>
           </dl>
           <div class="cta">
             <a class="btn btn-primary" data-download href="https://github.com/aadiichau/rabbit/releases/latest">Download installer</a>
+            <a class="btn btn-ghost" data-portable href="https://github.com/aadiichau/rabbit/releases/latest">Portable ZIP</a>
             <a class="btn btn-ghost" data-notes href="https://github.com/aadiichau/rabbit/releases/latest">Release notes</a>
           </div>
           <p class="small" data-checksum>Each release includes a <span class="mono">SHA256SUMS.txt</span> file so you can
-            check the installer before running it.</p>
+            check a download before running it.</p>
         </div>
         <aside class="notice" aria-labelledby="smartscreen-h">
           <h3 id="smartscreen-h">About the Windows warning</h3>
@@ -189,12 +191,12 @@
         <p class="kicker mono">05 — Numbers</p>
         <h2 id="stats-h">Downloads so far.</h2>
         <div class="stats">
-          <div class="stat"><span class="stat-value mono" data-stat="downloads">—</span><span class="stat-label">installer downloads</span></div>
+          <div class="stat"><span class="stat-value mono" data-stat="downloads">—</span><span class="stat-label">downloads</span></div>
           <div class="stat"><span class="stat-value mono" data-stat="releases">—</span><span class="stat-label">stable releases</span></div>
           <div class="stat"><span class="stat-value mono" data-stat="latest">—</span><span class="stat-label">latest version</span></div>
         </div>
-        <p class="footnote" data-stat="note">Counted from GitHub's own download numbers for the Windows installer of each
-          published release, refreshed every few hours. A download isn't a person or an install.</p>
+        <p class="footnote" data-stat="note">Counted from GitHub's own download numbers for the installer and portable ZIP
+          of each published release, refreshed every few hours. A download isn't a person or an install.</p>
       </div>
     </section>
 

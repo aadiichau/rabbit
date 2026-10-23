@@ -49,6 +49,7 @@ a:hover { color: var(--amber-hi); }
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 4px; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .small { font-size: 14px; color: var(--fg-2); }
+.dim { color: var(--fg-3); margin-left: 6px; }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
 .skip { position: absolute; left: -9999px; top: 8px; background: var(--amber); color: var(--amber-ink); padding: 8px 12px; border-radius: 6px; z-index: 10; }
 .skip:focus { left: 8px; }

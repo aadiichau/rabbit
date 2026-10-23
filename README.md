@@ -69,13 +69,20 @@ Other sites go through yt-dlp's generic support, with no promise.
 
 ## Install
 
-1. Download `Rabbit_<version>_x64-setup.exe` from the [latest release](https://github.com/aadiichau/rabbit/releases/latest).
-2. *(Optional)* Check it against the release's `SHA256SUMS.txt`:
-   ```powershell
-   Get-FileHash .\Rabbit_*_x64-setup.exe
-   ```
-3. Run it. Rabbit installs for your user only (`%LOCALAPPDATA%\Rabbit`), needs no administrator rights, and adds a
-   Start menu entry. Uninstall from **Settings → Apps**; your downloaded files are never touched.
+Each [release](https://github.com/aadiichau/rabbit/releases/latest) has two downloads:
+
+| Download | For |
+|---|---|
+| `Rabbit_<version>_x64-setup.exe` | **Installer (recommended).** Installs for your user only (`%LOCALAPPDATA%\Rabbit`), no administrator rights, Start menu entry, uninstall from **Settings → Apps**. Adds WebView2 on Windows 10 if it's missing. |
+| `Rabbit_<version>_x64-portable.zip` | **Portable.** No installation: unzip anywhere (even a USB drive) and run `rabbit.exe`. The library, settings and yt-dlp updates stay in a `data` folder inside it; delete the folder to remove Rabbit. Needs WebView2, which Windows 11 includes. |
+
+*(Optional)* Check a download against the release's `SHA256SUMS.txt`:
+
+```powershell
+Get-FileHash .\Rabbit_*_x64-setup.exe
+```
+
+Uninstalling never touches your downloaded files.
 
 **Requirements:** Windows 10 or 11, 64-bit. Microsoft Edge WebView2 is part of Windows 11; on Windows 10 the
 installer downloads it if it's missing.

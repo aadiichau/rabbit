@@ -6,6 +6,9 @@
 
 - Installs per user to `%LOCALAPPDATA%\Rabbit` without administrator rights, with a Start menu entry and an
   uninstaller (Settings → Apps). Reinstalling or upgrading keeps your library and settings.
+- **Portable version** `Rabbit_0.7.0_x64-portable.zip`: unzip and run `rabbit.exe`, no installation. A
+  `portable.txt` next to the exe keeps the library, settings, yt-dlp updates and WebView2 data in a `data` folder
+  beside it, so the folder can move between PCs or run from a USB drive. Needs WebView2 (included in Windows 11).
 - Bundles yt-dlp 2026.10.21, FFmpeg and FFprobe n9.0.2 (LGPL shared build) and their licences under `licenses\`.
   The WebView2 bootstrapper is embedded and installs WebView2 if it's missing (Windows 10).
 - **Not code-signed:** Windows SmartScreen may warn about an unknown publisher. Each release has a

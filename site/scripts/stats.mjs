@@ -2,9 +2,9 @@
 //   node site/scripts/stats.mjs --repo owner/name --out site
 // Writes <out>/stats.json (for the website) and <out>/badge.json (a shields.io endpoint badge).
 //
-// What is counted: the `download_count` GitHub reports for the Windows installer asset
-// (`*_x64-setup.exe`) of every published, non-prerelease release. Checksums, source archives and
-// drafts are excluded. A download count is not a count of people or of successful installs.
+// What is counted: the `download_count` GitHub reports for the Windows installer (`*_x64-setup.exe`)
+// and the portable ZIP (`*_x64-portable.zip`) of every published, non-prerelease release. Checksums,
+// source archives and drafts are excluded. A download count is not a count of people or of installs.
 // The token (the workflow's read-only GITHUB_TOKEN) is used server-side only and never written out.
 
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -19,6 +19,7 @@ const out = arg("out") ?? "site";
 if (!repo || !/^[\w.-]+\/[\w.-]+$/.test(repo)) throw new Error("--repo owner/name is required");
 
 const INSTALLER = /_x64-setup\.exe$/i;
+const PORTABLE = /_x64-portable\.zip$/i;
 const headers = { accept: "application/vnd.github+json", "user-agent": "rabbit-stats", "x-github-api-version": "2022-11-28" };
 if (process.env.GITHUB_TOKEN) headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
@@ -42,16 +43,17 @@ let stats;
 try {
   const stable = (await releases()).filter((r) => !r.draft && !r.prerelease && r.published_at);
   stable.sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at));
-  const installerOf = (r) => r.assets.find((a) => INSTALLER.test(a.name) && a.state === "uploaded");
-  const total = stable.reduce((sum, r) => sum + (installerOf(r)?.download_count ?? 0), 0);
-  const latest = stable.find((r) => installerOf(r));
-  const asset = latest && installerOf(latest);
+  const find = (r, pattern) => r.assets.find((a) => pattern.test(a.name) && a.state === "uploaded");
+  const count = (r) => (find(r, INSTALLER)?.download_count ?? 0) + (find(r, PORTABLE)?.download_count ?? 0);
+  const total = stable.reduce((sum, r) => sum + count(r), 0);
+  const latest = stable.find((r) => find(r, INSTALLER));
+  const describe = (a) => a && { name: a.name, size: a.size, url: a.browser_download_url, downloads: a.download_count };
   stats = {
     available: true,
     repo,
     generatedAt: new Date().toISOString(),
     stableReleases: stable.length,
-    totalInstallerDownloads: total,
+    totalDownloads: total,
     latest: latest
       ? {
           tag: latest.tag_name,
@@ -59,7 +61,8 @@ try {
           name: latest.name,
           publishedAt: latest.published_at,
           releaseUrl: latest.html_url,
-          installer: { name: asset.name, size: asset.size, url: asset.browser_download_url, downloads: asset.download_count },
+          installer: describe(find(latest, INSTALLER)),
+          portable: describe(find(latest, PORTABLE)) ?? null,
           checksumsUrl: latest.assets.find((a) => a.name === "SHA256SUMS.txt")?.browser_download_url ?? null,
         }
       : null,
@@ -74,10 +77,10 @@ mkdirSync(out, { recursive: true });
 writeFileSync(join(out, "stats.json"), JSON.stringify(stats, null, 2) + "\n");
 writeFileSync(
   join(out, "badge.json"),
-  JSON.stringify({ schemaVersion: 1, label: "downloads", message: stats.available ? fmt(stats.totalInstallerDownloads) : "n/a", color: "e5a23c" }) + "\n",
+  JSON.stringify({ schemaVersion: 1, label: "downloads", message: stats.available ? fmt(stats.totalDownloads) : "n/a", color: "e5a23c" }) + "\n",
 );
 console.log(
   stats.available
-    ? `stable releases: ${stats.stableReleases}, installer downloads: ${stats.totalInstallerDownloads}, latest: ${stats.latest?.tag ?? "none"}`
+    ? `stable releases: ${stats.stableReleases}, downloads: ${stats.totalDownloads}, latest: ${stats.latest?.tag ?? "none"}`
     : "stats unavailable",
 );

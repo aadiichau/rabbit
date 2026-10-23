@@ -21,7 +21,7 @@
     return;
   }
 
-  set('[data-stat="downloads"]', stats.totalInstallerDownloads.toLocaleString("en"));
+  set('[data-stat="downloads"]', stats.totalDownloads.toLocaleString("en"));
   set('[data-stat="releases"]', String(stats.stableReleases));
 
   const latest = stats.latest;
@@ -37,6 +37,11 @@
   set('[data-field="date"]', day(latest.publishedAt));
   set("[data-release-meta]", `Version ${latest.version} · ${mib(latest.installer.size)} · Windows 10 / 11 · 64-bit · no admin rights needed`);
   document.querySelectorAll("[data-download]").forEach((a) => (a.href = latest.installer.url));
+  if (latest.portable) {
+    set('[data-field="pfile"]', latest.portable.name);
+    set('[data-field="psize"]', mib(latest.portable.size));
+    document.querySelectorAll("[data-portable]").forEach((a) => (a.href = latest.portable.url));
+  }
   document.querySelectorAll("[data-notes]").forEach((a) => (a.href = latest.releaseUrl));
   if (latest.checksumsUrl) {
     document.querySelectorAll("[data-checksum] .mono").forEach((el) => {
@@ -47,5 +52,5 @@
       el.replaceWith(link);
     });
   }
-  set('[data-stat="note"]', `Counted from GitHub's download numbers for the Windows installer of each published release. Updated ${day(stats.generatedAt)}. A download isn't a person or an install.`);
+  set('[data-stat="note"]', `Counted from GitHub's download numbers for the installer and portable ZIP of each published release. Updated ${day(stats.generatedAt)}. A download isn't a person or an install.`);
 })();
